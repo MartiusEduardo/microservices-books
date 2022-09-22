@@ -33,5 +33,21 @@ jobs:
           distribution: 'adopt'
           
       - name: Build Eureka Naming Server Container Image
-        working-directory: ./06-cambio-service
+        working-directory: ./08-naming-server
         run: mvn spring-boot:build-image -Dmaven.test.skip=true
+        
+      - name: Build API Gateway Container Image
+        working-directory: ./09-api-gateway
+        run: mvn spring-boot:build-image -Dmaven.test.skip=true
+        
+      - name: Build Cambio Microservice Jar
+        working-directory: ./06-cambio-service
+        run: mvn clean && mvn install -Dmaven.test.skip=true
+        
+      - name: Build Book Microservice Jar
+        working-directory: ./07-book-service
+        run: mvn clean && mvn install -Dmaven.test.skip=true
+        
+      - name: Docker Compose Build
+        working-directory: .
+        run: docker-compose build
